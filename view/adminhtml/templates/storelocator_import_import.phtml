@@ -1,0 +1,49 @@
+<div class="import-csv">
+  <div class="header">
+    <h4>CSV File:</h4>
+  </div>
+  <p id="result" class="message" style="display: none;" data-message></p>
+  <form class="import-store-form" action="<?php echo $block->getUrl('storelocator/import/importcsv');?>" method="POST" enctype="multipart/form-data" id="fileUploadForm">
+  	<?php echo $block->getBlockHtml('formkey'); ?>
+    <input type="file" required class="required-entry" name="csv" />
+    <button id="check_csv_data">Check Data</button>
+    <button type="submit" disabled="disabled" id="csv_import">Import</button>
+  </form>
+</div>
+<script>
+require(["jquery"],function($) {
+	$(document).ready(function() {
+		var customurl = "storelocator/import/importcsv";
+		$("#check_csv_data").on("click",function(){
+			// Get form data
+	        var form = $('#fileUploadForm')[0];
+	        var data = new FormData(form);
+
+	        $("#check_csv_data").prop("disabled", true);
+
+			$.ajax({
+                url: customurl,
+                type: 'POST',
+                enctype: 'multipart/form-data',
+                data: data,
+                processData: false,
+	            contentType: false,
+	            cache: false,
+            complete: function(response) {            		
+            		var result = JSON.parse(response.responseText);
+                 	if(result.status){
+                 		$("#csv_import").prop("disabled", false);
+                 	}
+                 	$("#result").text(result.message);
+                 	$("#result").show();
+                 	$("#check_csv_data").prop("disabled", false);
+                },
+                error: function (xhr, status, errorThrown) {
+                    console.log('Error happens. Try again.');
+                    $("#check_csv_data").prop("disabled", false);
+                }
+            });
+		});
+	});
+});
+</script>

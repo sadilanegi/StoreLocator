@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="iksula_store_locator" sortOrder="999" translate="label">
+            <label>Iksula Store Locator</label>
+        </tab>
+        <section id="storelocator" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Store Locator</label>
+            <tab>iksula_store_locator</tab>
+            <resource>Iksula_Storelocator::storelocator_configuration</resource>
+            <group id="general" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="apikey" translate="label comment" type="text" sortOrder="0"  showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Api key for google Maps</label>                    
+                </field>
+            </group>
+            <group id="banner_upload" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" >
+                <label>Banner for Storelocaor Page</label>
+                <field id="storelocator_banner" translate="label comment" type="image" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Select Image</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Image</backend_model>
+                    <upload_dir config="system/filesystem/media" scope_info="1">storebanner</upload_dir>
+                    <base_url type="media" scope_info="1">storebanner</base_url>
+                </field>
+                 <field id="bannertitle" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="51" translate="label" type="textarea">
+                    <label>Title</label>
+                </field>
+                <field id="bannerdesc" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="52" translate="label" type="textarea">
+                    <label>Description</label>
+                </field>
+                <field id="bannertextcolor" translate="label" type="select" sortOrder="53" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Text Color</label>
+                    <source_model>Iksula\Storelocator\Model\Config\Source\Options</source_model>
+                </field>
+                <field id="totalStores" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Number of Stores </label>
+                    <comment>This will display Number of Stores on the storelocator page</comment>
+                </field>
+                <field id="totalStoresColor" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Stores Color</label>
+                    <source_model>Iksula\Storelocator\Model\Config\Source\Options</source_model>
+                    <comment>This will Change color of Stores text on the storelocator page</comment>
+                </field>
+                <field id="totalCities" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Number of Cities:</label>
+                    <comment>This will display Number of Cities on the storelocator page</comment>
+                </field>
+                <field id="totalCitiesColor" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Cities Color</label>
+                    <source_model>Iksula\Storelocator\Model\Config\Source\Options</source_model>
+                    <comment>This will Change color of Cities text on the storelocator page</comment>
+                </field>
+                <field id="totalCustomers" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Number of Customers:</label>
+                    <comment>This will display Number of Customers on the storelocator page</comment>
+                </field>
+                <field id="totalCustomersColor" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Customers Color</label>
+                    <source_model>Iksula\Storelocator\Model\Config\Source\Options</source_model>
+                    <comment>This will Change color of Customers text on the storelocator page</comment>
+                </field>
+                
+            </group>
+        </section>
+    </system>
+</config>

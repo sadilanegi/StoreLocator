@@ -1,0 +1,241 @@
+<?php 
+$getCity = $this->getRequest()->getParam('city');
+$storeIds = array(203,211,221,263,264,265,227);
+$helper = $this->helper('Iksula\Storelocator\Helper\Data');
+if($block->getBannerImage()) :?>
+	<div class="store_banner" style="background-image:url('<?php echo $this->getUrl().'pub/media/storebanner/'.$block->getBannerImage(); ?>')">
+		<div class="store-locator-banner-info-wrap">
+			<div class="banner-text">
+				<h1 style="color: <?php echo $block->getBannerTextColor();?>"><?php echo $block->getBannerTitle();?></h1>
+				<p style="color: <?php echo $block->getBannerTextColor();?>"><?php echo $block->getBannerDescription();?> </p>			
+			</div>
+			<div class="banner-numbers">
+				<p style="color: <?php echo $helper->getStoreColor();?>" >
+					<span><b><?php echo $helper->getStoreCount(); ?></b> Stores</span>
+				</p>
+				<p style="color: <?php echo $helper->getCityColor();?>" >
+					<span><b><?php echo $helper->getCityCount(); ?></b> Cities</span>
+				</p>
+				<p style="color: <?php echo $helper->getCustomerColor();?>" >
+					<span><b><?php echo $helper->getCustomerCount(); ?></b> Customers</span>
+				</p>
+			</div>
+		</div>
+	</div>
+<?php endif; ?>
+<div class="store_locator_details clear">
+	<div class="storelocator_txt">
+		<?php echo $block->getStoreLocatorText();?>
+		<?php $storeCollectionCityWise = $block->getStoreCollectionCityWise($getCity); ?>
+	</div>
+	<div class="store_locator_main">
+		<div class="container">
+			<form action="" id="store_location" method="post">
+				<?php $storeArea = $block->getStoreArea(); ?>
+				<div class="store_select">
+					<h3>Select City:</h3>
+					<select id="store_city">
+						<option value="0" id="select_city">Select City</option>
+						<?php foreach($storeArea as $city): ?>
+							<option value='<?php echo isset($city['city'])?$city['city']:''; ?>'><?php echo isset($city['city'])?$city['city']:''; ?></option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+				<div class="store_data">
+					<div class="addressdata addressdata_all_city"></div>
+					<div class="addressdata_all_city">
+						<?php 
+						foreach($storeCollectionCityWise as $city => $value){ 
+							?>
+							<div class="address__section">
+								<h1><?php echo $city; ?></h1>
+								<div class="address__list">
+									<?php 
+									foreach($value as $val){ 
+										?>
+
+										<div class="map-data address__block" data-address="<?php echo $val['address']; ?>">
+											<div class="val-container address__location">
+												<div class="val_container_img address__pic">
+													<?php 
+
+													if(isset($val['image'])) {
+														$store_image=$block->imagePath()."/".$val['image'];
+													}else{
+														$store_image=$block->imagePath()."/storelocator/placeholder.jpg";
+													}
+													?>
+													<img class="address__img" src="<?php echo $store_image ?>" />
+
+													<div class="side_icons">
+														<?php  if($val['view360'] != "" && $val['view360'] != null){ ?>
+															<div class="click_here pos_360 text-center" data-address='<?php echo $val['iframe360'] ?>'>
+																<a id="360" class="btn"><i class="icon-360-degree"></i> Store View</a>
+															</div>
+														<?php }?>
+
+													</div>
+												</div>
+												<div class="val_container_text address__content">
+													<p><?php echo $val['name'] ?></p>							           
+													<div><?php echo $val['address'] ?></div>
+													<div><?php echo $val['city'] ?> - <?php echo $val['pincode'] ?></div>
+													<?php if($val['phone'] != "" && $val['phone'] != null){ ?>
+														<div>Phone : <?php echo $val['phone']?></div>
+													<?php } ?>
+													<?php if($val['storeopentime'] != "" && $val['storeopentime'] != null && $val['storeclosetime'] != "" && $val['storeclosetime'] != null){ ?>
+														<div>Store Time : <?php echo $val['storeopentime'].'-'.$val['storeclosetime']; ?></div>
+													<?php }else{ ?>
+														<div>Store Time : <?php echo '10 am - 8 pm' ?></div>
+													<?php } ?>
+													<strong class="click1_here" data-address="<?php echo $val['address'] ?>">
+														<a href="https://www.google.com/maps/search/<?php echo $val['address'] ?>" target="_blank" class="link-btn"> 
+														<?php echo in_array($val['id'], $storeIds)? '' : 'Get Directions' ?> </a>
+													</strong>
+
+												</div>
+
+												<div class="address__map">
+													<?php $mapurl=$val['mapshareurl']?>
+													<div class="map" id="map">
+														<div class="iframe__block iframe__block--full">
+															<div class="iframe__screen">
+																<?php echo $val['mapiframe'] ?>
+																<div class="share_link">
+																	<a class="tw-share" href="http://www.twitter.com/share?url=<?php echo $mapurl; ?>" title="Share on Twitter" target="_blank" >
+																		<i class="icon-ICON_Twitter"></i>
+																		<!-- <img src="<?php // echo $block->getViewFileUrl('Iksula_ProductSocialShare::images/twitter.png'); ?>" alt="Twitter"/> -->
+																	</a>
+																	<a class="fb-share" href="https://www.facebook.com/sharer.php?u=<?php echo urlencode($mapurl); ?>" title="Share on Facebook" target="_blank">
+																		<i class="icon-ICON_facebook"></i>
+																	</a>
+																	<a class="email-share" href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=youremail@gmail.com&body=<?php echo $mapurl;?>" title="Share on Email" target="_blank">
+																		<i class="icon-new-email-envelope-back-symbol-in-circular-outlined-button"></i>
+
+																	</a>	
+
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<?php 
+									} ?>
+								</div>
+							</div>
+							<?php 
+						} 
+						?>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="store_map">
+			<div id="map_canvas" class="store_map"></div>
+			<?php $apikey = $block->getGoogleMapApiKey();  ?>
+		</div>
+	</div>
+</div>
+<div id="360iframe" class="iframe__block iframe__block--full"><div id="iframe-360" class="iframe__screen"></div></div>
+<script>
+	require(
+		[
+		'jquery',
+		'Magento_Ui/js/modal/modal'
+		],
+		function(
+			$,
+			modal
+			) {
+			var options = {  
+				type: 'popup',
+				responsive: true,
+				innerScroll: false,
+				clickableOverlay: true,
+				modalClass: 'iframe__modal',
+				buttons: [],
+				closed: function() {
+					$('#iframe-360').html("");
+				},
+			};
+
+			var popup = modal(options, $('#360iframe'));
+			$(document).on('click', '.click_here', function(event) {
+
+//data-address
+//set iframe in div
+var iframe = $(this).attr('data-address');
+$("#iframe-360").html(iframe)
+
+$("#360iframe").modal('openModal');
+});
+//this opens the modal, you can use some click event or whatever you need to trigger the modal here
+
+}
+);
+</script>
+
+<!-- Script for showing stores on map -->
+<script type="text/javascript">
+	require(['jquery','sitemap'], function($){
+// Asynchronously Load the map API
+var script = document.createElement('script');
+script.src = "https://maps.googleapis.com/maps/api/js?key=<?php echo $apikey; ?>&sensor=false&callback=initialize";
+document.body.appendChild(script);
+});
+</script>
+<!-- Script for ajax call on changing city -->
+<script type="text/javascript">
+	require(["jquery"],function($) {
+
+		$(document).ready(function() {
+
+			$(".addressdata_all_city").show();
+			$(".addressdata").hide();
+			var getCity = "<?php echo $getCity; ?>";
+
+			if( getCity != '' ){
+				$('#store_city').val(getCity);
+			}
+//On changing city option
+$(document).on('change', '#store_city', function(){
+	var customurl = "<?php echo $this->getUrl().'storelocator/index/index'?>";
+	var city_area = $('#store_city').val();
+	if(city_area != '0'){
+		$.ajax({
+			showLoader: true,
+			url: customurl,
+			data: {
+				city: city_area,
+			},
+			type: 'POST',
+			dataType: 'json',
+			success: function(response) {
+				showLoader: false;
+				$(".addressdata_all_city").hide();
+				$(".addressdata").show();
+				$('.addressdata').html(response.html);
+				initialize();
+//On clicking store link
+$(".click_here").on("click", function(e){
+	var address = $(this).attr('data-address');
+	var lat = $(this).attr('data-lattitude');
+	var long = $(this).attr('data-longitude');
+	highlightStore(address, lat, long);
+})
+},
+error: function (xhr, status, errorThrown) {
+	showLoader: false;
+	console.log('Error happens. Try again.');
+}
+});
+	}else{
+		$(".addressdata_all_city").show();
+		$(".addressdata").hide();
+	}
+});
+});
+	});
+</script>

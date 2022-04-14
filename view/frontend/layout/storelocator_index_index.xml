@@ -1,0 +1,30 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd"> 
+    <head>
+    	<css src="css/store_locator.css" media="all"/>
+    </head>
+    <body> 
+    <attribute name="class" value="banner"/>
+    <attribute name="class" value="store-locator"/>    	
+    	<!-- <referenceBlock name="breadcrumbs">
+           <action method="addCrumb">
+               <argument name="crumbName" xsi:type="string">Home</argument>
+               <argument name="crumbInfo" xsi:type="array">
+                   <item name="title" xsi:type="string">Home</item>
+                   <item name="label" xsi:type="string">Home</item>
+                   <item name="link" xsi:type="string">{{baseUrl}}</item>
+               </argument>
+           </action>
+           <action method="addCrumb">
+               <argument name="crumbName" xsi:type="string">Store Locator</argument>
+               <argument name="crumbInfo" xsi:type="array">
+                   <item name="title" xsi:type="string">Store Locator</item>
+                   <item name="label" xsi:type="string">Store Locator</item>
+               </argument>
+           </action>
+       </referenceBlock> -->
+        <move element="breadcrumbs" destination="content" before="-"/>
+        <referenceContainer name="content">     
+            <block class="Iksula\Storelocator\Block\Storelocator" name="store_locator" template="Iksula_Storelocator::storelocator.phtml" /> 
+        </referenceContainer>
+    </body> 
+</page>
